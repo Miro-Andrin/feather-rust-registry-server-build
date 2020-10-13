@@ -12,8 +12,6 @@ services:
             - POSTGRES_DB=feather #Default db that is created        
         volumes:
             - postgres:/data/postgres
-        ports:
-            - "5432:5432"
         networks:
             - postgres
         #restart: unless-stopped
@@ -36,6 +34,9 @@ services:
 networks:
     postgres:
         driver: bridge
+    
+    
+        
 
 volumes:
     postgres:
