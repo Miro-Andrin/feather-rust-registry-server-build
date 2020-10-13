@@ -1,0 +1,42 @@
+version: '3.5'
+
+services: 
+    
+    db:
+        container_name: postgres_db
+        build : ./database/
+        #image: 'postgres:13-alpine'
+        environment:
+            - POSTGRES_USER=feather
+            - POSTGRES_PASSWORD=feather    
+            - POSTGRES_DB=feather #Default db that is created        
+        volumes:
+            - postgres:/data/postgres
+        ports:
+            - "5432:5432"
+        networks:
+            - postgres
+        #restart: unless-stopped
+
+    connection-server:
+        #Server responsible for accepting connections from users about adding/modifying a pluigin
+        container_name: "connection_server"
+        build: ./registry/
+        environment:
+            - POSTGRES_USER=feather
+            - POSTGRES_PASSWORD=feather
+        depends_on:
+            - "db"
+        ports:
+            - "5605:5606" #TODO change this to what the connection server uses. 
+        networks: 
+             # Can talk to postgres and postgres can talk to it under postgres://db:5432
+            - postgres 
+
+
+networks:
+    postgres:
+        driver: bridge
+
+volumes:
+    postgres:

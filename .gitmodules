@@ -1,0 +1,3 @@
+[submodule "registry/feather-registry"]
+	path = registry/feather-registry
+	url = https://github.com/Defman/feather-registry.git
