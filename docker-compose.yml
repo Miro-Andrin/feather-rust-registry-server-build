@@ -23,8 +23,7 @@ services:
         container_name: "connection_server"
         build: ./registry/
         environment:
-            - POSTGRES_USER=feather
-            - POSTGRES_PASSWORD=feather
+            - DATABASE_URL=postgresql://feather:feather@postgres_db:5432/feather
         depends_on:
             - "db"
         ports:
