@@ -24,20 +24,19 @@ RUN set -eux; \
     cargo --version; \
     rustc --version;
 
+# Install code and download dependencies
+ADD ./feather-registry/ /usr/src/app/
+RUN cd /usr/src/app/ ;cargo fetch
+
+# Install refinery so that we can setup db. This includes setting up refinery.toml
+RUN cargo install refinery_cli
+
+
 #Install dependencies needed to run start.sh
 #The start.sh needs postgres running.
-RUN apk update; apk add --no-cache bash python3-dev py3-pip postgresql-dev
-RUN pip3 install psycopg2-binary
-
-# Include the files from code into the container and compile the code
-# this makes sure the code was able to compile once image was created.
-# The image is going to be compiled porpperly once the docker image is run.
-ADD ./feather-registry/ /usr/src/app/
+RUN apk update; apk add --no-cache bash postgresql-client
 ADD ./start.sh / 
-ADD ./DB_init.py /usr/src/app/
 RUN chmod a+x /start.sh
 
-# Download dependencies.
-RUN cd /usr/src/app/ ;cargo fetch
 CMD ["/start.sh"]
 
