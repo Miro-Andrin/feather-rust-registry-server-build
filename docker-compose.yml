@@ -9,11 +9,14 @@ services:
         environment:
             - POSTGRES_USER=feather
             - POSTGRES_PASSWORD=feather    
-            - POSTGRES_DB=feather #Default db that is created        
+            - POSTGRES_DB=feather #Default db that is created if missing   
+            - POSTGRES_INITDB_ARGS="-L ./migrations"
         volumes:
             - postgres:/data/postgres
         networks:
             - postgres
+        ports:
+            - "5432:5432"
         #restart: unless-stopped
 
     connection-server:

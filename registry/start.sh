@@ -4,6 +4,7 @@
 # This compiles the project, and then runs the binary. 
 
 cd /usr/src/app
+python3 ./DB_init.py
 cargo build --release  || { echo 'buid failed' ; exit 1; }
 /usr/src/app/target/release/feather-registry
 
